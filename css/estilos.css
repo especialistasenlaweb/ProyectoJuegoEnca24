@@ -1,18 +1,15 @@
+/* ============================================
+   CÓDIGO ORIGINAL DEL EQUIPO — NO MODIFICADO
+   ============================================ */
 :root{
-    /* Colores */
     --body-fondo:lightblue;
     --body-fondo1:yellow;
     --sombra-color:rgba(0,0,0,0.4);
-
-    /* medidas  */
     --ancho-pagina:80%;
     --alto-presentacion:400px;
     --border-radius:3em;
-    
-    /*  configuracion sombra */
     --configuracion-sombra:0 0 0.5em 0.2em;
 }
-
 body{
     background:var(--body-fondo);
 }
@@ -69,18 +66,162 @@ button.iniciar{
 }
 .presentacion{
     background:linear-gradient(darkblue,lightblue);
-    /* Sombra: x y difumunidad grosos color */
     box-shadow:var(--configuracion-sombra) var(--sombra-color);
     border-radius:var(--border-radius);
     font-size:40px;
     display:none;
     height:var(--alto-presentacion);
-    /* margin: arriba derecha abajo izquierda */
     margin:2em auto 0 auto;
     padding:3em;
     text-align:center;
     width:var(--ancho-pagina);
 }
+
+/* ============================================
+   CAMBIOS HECHOS POR CARLOS
+   Estilos para modales: bienvenida, resultado
+   final con niveles, y mensaje del tigre.
+   ============================================ */
+
+/* Fondo oscuro que cubre toda la pantalla */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 20, 0.85);
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
+    /* Cuando se hace fadeIn con jQuery cambia display:block,
+       usamos flex con un truco en la caja para centrar */
+}
+
+/* Caja blanca del modal */
+.modal-caja {
+    background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+    border: 2px solid rgba(100, 200, 255, 0.4);
+    border-radius: 1.5em;
+    box-shadow: 0 0 40px rgba(0, 150, 255, 0.3);
+    color: white;
+    left: 50%;
+    max-width: 500px;
+    padding: 3em 2.5em;
+    position: fixed;
+    text-align: center;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+}
+
+/* Emoji grande arriba del modal */
+.modal-emoji {
+    font-size: 70px;
+    margin-bottom: 0.3em;
+    animation: bounce 1s infinite alternate;
+}
+
+/* Título del modal */
+.modal-caja h2 {
+    font-family: Arial, sans-serif;
+    font-size: 2em;
+    margin-bottom: 0.3em;
+    color: #7ecfff;
+    text-shadow: 0 0 10px rgba(126, 207, 255, 0.6);
+}
+
+/* Subtítulo del modal */
+.modal-sub {
+    color: rgba(255,255,255,0.7);
+    font-family: Arial, sans-serif;
+    font-size: 1.1em;
+    margin-bottom: 1.5em;
+}
+
+/* Botón principal de los modales */
+.modal-caja button {
+    background: linear-gradient(90deg, #0070f3, #00c6ff);
+    border: none;
+    border-radius: 2em;
+    color: white;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    font-size: 1.2em;
+    font-weight: bold;
+    padding: 0.7em 2.5em;
+    margin: 0.3em;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 4px 15px rgba(0, 112, 243, 0.5);
+}
+.modal-caja button:hover {
+    transform: scale(1.06);
+    box-shadow: 0 6px 20px rgba(0, 198, 255, 0.6);
+}
+.modal-caja button:active {
+    transform: scale(0.97);
+}
+
+/* Botón salir — color rojo */
+.btn-salir {
+    background: linear-gradient(90deg, #c0392b, #e74c3c) !important;
+    box-shadow: 0 4px 15px rgba(231, 76, 60, 0.5) !important;
+}
+.btn-salir:hover {
+    box-shadow: 0 6px 20px rgba(231, 76, 60, 0.7) !important;
+}
+
+/* Contenedor de botones del resultado final */
+.resultado-botones {
+    display: flex;
+    gap: 1em;
+    justify-content: center;
+    margin-top: 1em;
+    flex-wrap: wrap;
+}
+
+/* Emoji del resultado */
+.resultado-emoji {
+    font-size: 80px;
+    margin-bottom: 0.2em;
+    animation: bounce 0.8s infinite alternate;
+}
+
+/* Nivel mostrado en resultado */
+.resultado-nivel {
+    color: #a8e6cf;
+    font-family: Arial, sans-serif;
+    font-size: 1.1em;
+    margin-bottom: 0.5em;
+}
+
+/* Puntaje en resultado */
+.resultado-puntaje {
+    background: rgba(255,255,255,0.1);
+    border-radius: 1em;
+    color: white;
+    display: inline-block;
+    font-family: Arial, sans-serif;
+    font-size: 1.3em;
+    font-weight: bold;
+    margin-bottom: 1em;
+    padding: 0.4em 1.5em;
+}
+
+/* Texto del tigre cepeda */
+.tigre-texto {
+    color: #ff6b6b !important;
+    text-shadow: 0 0 10px rgba(255, 107, 107, 0.6) !important;
+}
+
+/* Animación de rebote para emojis */
+@keyframes bounce {
+    from { transform: translateY(0px); }
+    to   { transform: translateY(-12px); }
+}
+
+/* FIN CAMBIOS HECHOS POR CARLOS */
 
 /* #modal-resultado,#modal-salida,button.iniciar{
     display: none;
