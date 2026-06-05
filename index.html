@@ -1,104 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <link rel="stylesheet" href="css/estilos.css">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Juego </title>
-</head>
-<body>
-    <div class="gameover"></div>
-    <div class="mensajeover">
-        <button id="reiniciar">reiniciar</button>
-    </div>
-    
-    <!-- ============================================================================================================================= -->
-    <!-- CAMBIOS HECHOS POR CARLOS: Modal de bienvenida -->
-        <!-- <div id="modal-bienvenida" class="modal-overlay">
-        <div class="modal-caja">
-            <div class="modal-emoji">🎮</div>
-            <h2 id="modal-texto">¡Bienvenido!</h2>
-            <p class="modal-sub">Prepárate para el desafío</p>
-            <button id="modal-cerrar">¡Vamos a jugar!</button>
+    <head>
+        <link rel="stylesheet" href="css/estilos.css">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title> Juego </title>
+    </head>
+    <body>
+        <div class="gameover"></div>
+        <div class="mensajeover">
+            <button id="reiniciar">reiniciar</button>
         </div>
-    </div> -->
 
-    <!-- CAMBIOS HECHOS POR CARLOS: Modal resultado final con niveles -->
-    <!-- <div id="modal-resultado" class="modal-overlay">
-        <div class="modal-caja modal-resultado-caja">
-            <div class="resultado-emoji" id="resultado-emoji">🏆</div>
-            <h2 id="resultado-titulo">¡Juego terminado!</h2>
-            <p id="resultado-nivel" class="resultado-nivel"></p>
-            <p id="resultado-puntaje" class="resultado-puntaje"></p>
-            <div class="resultado-botones">
-                <button id="btn-volver-jugar">🔄 Volver a jugar</button>
-                <button id="btn-salir" class="btn-salir">🚪 Salir</button>
+        <!-- ============================================================================================================================= -->
+        <!-- Modal de bienvenida -->
+        <div id="modal-bienvenida" class="modal-overlay">
+            <div class="modal-caja">
+                <div class="modal-emoji">🎮</div>
+                <h2 id="modal-texto">¡Bienvenido!</h2>
+                <p class="modal-sub">Prepárate para el desafío!</p>
+                <p class="modal-sub">Porfavor ingresa nombre jugador:</p>
+                <input type="text" id="nombre"><br><br>
+                <button id="modal-cerrar">¡Vamos a jugar!</button>
             </div>
         </div>
-    </div> -->
 
-    <!-- CAMBIOS HECHOS POR CARLOS: Modal mensaje de salida "tigre cepeda" -->
-    <!-- <div id="modal-salida" class="modal-overlay">
-        <div class="modal-caja">
-            <div class="modal-emoji">🐯</div>
-            <h2 class="tigre-texto">¡Te mordió el Tigre Cepeda!</h2>
-            <p class="modal-sub">Hasta la próxima, cobarde 😂</p>
-            <button id="btn-cerrar-salida">Cerrar</button>
-        </div>
-    </div>  -->
-<!-- "=============================================================================================================================== "-->
-
-
-    <audio id="audiogeneral" loop>
-        <source src="sonidos/general.mp3" type="audio/mpeg">
-        Sonido no disponible
-    </audio>
-    <audio id="audiovictoria">
-        <source src="sonidos/win.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="audioperdida">
-        <source src="sonidos/lost.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="audiotimeout">
-        <source src="sonidos/timeout.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="sonidoboton">
-        <source src="sonidos/botonsound.mp3" type="audio/mpeg">
-    </audio>
-
-    <button class="iniciar">👌Iniciar Juego </button>
-
-    <section class="contenido">
-        <article class="presentacion">
-            Nombre
-            <input type="text" id="nombre">
-            <br>
-             <!-- botones de dificultad --> 
-            <div class="dificultad">Dificultad
-                <div>
-                <button id="facil" class="casillasdificultad">Facil</button>
-                <button id="medio" class="casillasdificultad">Medio</button>
-                <button id="dificil" class="casillasdificultad">Dificil</button>
-                </div>   
+        <!-- Modal resultado final con niveles -->
+        <div id="modal-resultado" class="modal-overlay">
+            <div class="modal-caja">
+                <div class="resultado-emoji" id="resultado-emoji">🏆</div>
+                <h2 id="resultado-titulo">¡Juego terminado!</h2>
+                <p id="resultado-nivel" class="resultado-nivel"></p>
+                <p id="resultado-puntaje" class="resultado-puntaje"></p>
+                <div class="resultado-botones">
+                    <button id="btn-volver-jugar">🔄 Volver a jugar</button>
+                    <button id="btn-salir" class="btn-salir">🚪 Salir</button>
+                </div>
             </div>
-            <button id="empezar">Empezar Juego</button>
-
-
-        </article>
-        <div id="tiempo"></div>
-        <div id="juego">
-            Numero 1:
-            <input type="number" id="numero1" readonly> 
-            ➕
-            Numero 2:
-            <input type="number" id="numero2" readonly> <br>
-            Respuesta:
-            <input type="number" id="respuestausuario"> <br>
-            <button id="responder">Responder la suma</button>
         </div>
-    </section>
 
-    <script src="https://code.jquery.com/jquery-4.0.0.min.js"></script>
-    <script src="js/funciones.js"></script>
-</body>
+        <!-- Modal mensaje de salida "tigre cepeda"  -->
+        <div id="modal-salida" class="modal-overlay">
+            <div class="modal-caja">
+                <div class="modal-emoji">🐯</div>
+                <h2 class="tigre-texto">¡Te mordió el Tigre Cepeda!</h2>
+                <p class="modal-sub">Hasta la próxima, cobarde 😂</p>
+                <button id="btn-cerrar-salida">Cerrar</button>
+            </div>
+        </div>
+        <!-- "=============================================================================================================================== "-->
+
+        <audio id="audiogeneral" loop>
+            <source src="sonidos/general.mp3" type="audio/mpeg">
+            Sonido no disponible
+        </audio>
+        <audio id="audiovictoria">
+            <source src="sonidos/win.mp3" type="audio/mpeg">
+        </audio>
+        <audio id="audioperdida">
+            <source src="sonidos/lost.mp3" type="audio/mpeg">
+        </audio>
+        <audio id="audiotimeout">
+            <source src="sonidos/timeout.mp3" type="audio/mpeg">
+        </audio>
+        <audio id="sonidoboton">
+            <source src="sonidos/botonsound.mp3" type="audio/mpeg">
+        </audio>
+
+        <section class="contenido">
+            <article class="presentacion">
+               <div id="nompresent" class="modal-sub"></div>
+                <!-- botones de dificultad -->
+                <div class="dificultad">Dificultad
+                    <div>
+                        <button id="facil"
+                            class="casillasdificultad">Facil</button>
+                        <button id="medio"
+                            class="casillasdificultad">Medio</button>
+                        <button id="dificil"
+                            class="casillasdificultad">Dificil</button>
+                    </div>
+                </div>
+                <button id="empezar">Empezar Juego</button>
+
+            </article>
+            <div id="tiempo"></div>
+            <div id="juego">
+                Numero 1:
+                <input type="number" id="numero1" readonly>
+                ➕
+                Numero 2:
+                <input type="number" id="numero2" readonly> <br>
+                Respuesta:
+                <input type="number" id="respuestausuario"> <br>
+                <button id="responder">Responder la suma</button>
+            </div>
+        </section>
+
+        <script src="https://code.jquery.com/jquery-4.0.0.min.js"></script>
+        <script src="js/funciones.js"></script>
+    </body>
 </html>
