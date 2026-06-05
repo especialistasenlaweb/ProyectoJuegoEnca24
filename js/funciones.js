@@ -10,6 +10,7 @@ var respuestacorrecta=0;
 var confirinijuego= 0;
 var contRespuestasCorrectas = 0; //contador de respuestas correctas
 var contintentos=0; //cuenta las veces que has juegado dentro de la pagina.
+var timechoose=0;
 
   function generarNumeros() {  // funcion que crea variables a operar     
         var a=parseInt(Math.random()*10)+1;
@@ -22,8 +23,8 @@ var contintentos=0; //cuenta las veces que has juegado dentro de la pagina.
     function traerNombre(){  //funcion que trae el nombre del usuario o anonimo! por defecto.
         var nombreuser=$("#nombre").val(); 
         if(nombreuser==""){
-             $("#nompresent").text("bienvenido jugador anonimo!");}
-        else{$("#nompresent").text("bienvenido"+ nombreuser);}
+             $("#nompresent").text("Bienvenido Jugador anonimo!");}
+        else{$("#nompresent").text("Bienvenido "+nombreuser);}
     };
 
 
@@ -32,6 +33,7 @@ generarNumeros(); //ejecuta al inicio la funcion que crea las variables operador
 //botones seleccion de dificultad:
 $("#facil").on("click",function(){
     tiempo=20;
+    timechoose=20;
     elementoSonidoBoton.play();
     $("#empezar").css("display","inline");
     $("#facil").css("box-shadow","0 0 36px rgba(32, 250, 4, 0.55)");
@@ -39,6 +41,7 @@ $("#facil").on("click",function(){
 });
 $("#medio").on("click",function(){
     tiempo=14;
+    timechoose=14;
     elementoSonidoBoton.play();
     $("#empezar").css("display","inline");
     $("#medio").css("box-shadow","0 0 36px rgba(255, 255, 4, 0.54)");
@@ -46,6 +49,7 @@ $("#medio").on("click",function(){
 });
 $("#dificil").on("click",function(){
     tiempo=8;
+    timechoose=8;
     elementoSonidoBoton.play();
     $("#empezar").css("display","inline");
     $("#dificil").css("box-shadow","0 0 36px rgba(255, 4, 4, 0.59)");
@@ -61,7 +65,7 @@ $("#empezar").on("click",function(){
     $("#tiempo").html(tiempo);
 
 
-    // ================= Funcion que controla el tiempo en el juego. ===============
+       // ================= Funcion que controla el tiempo en el juego. ===============
     intervalo=setInterval(function(){
         tiempo--;
         $("#tiempo").html(tiempo);
@@ -91,9 +95,9 @@ $("#responder").on("click",evaluar);
 function evaluar(){
     var resuser=$("#respuestausuario").val();
     if (resuser==respuestacorrecta){
-        clearInterval(intervalo);
         elementoSonidoGeneral.pause();
-        $("#tiempo").fadeOut(100);
+        clearInterval(intervalo);
+        $("#tiempo").html(0);
         contRespuestasCorrectas++;  // incremento contador de respuesta correcta
         contintentos++; //aumenta el contador de intentos hechos!.
         contesto=1;
@@ -104,6 +108,8 @@ function evaluar(){
 }
     else { elementoSonidoPerdida.play();
         elementoSonidoPerdida.volume=0.3;
+        clearInterval(intervalo);
+        $("#tiempo").html(0);
          contintentos++; //aumenta el contador de intentos hechos!.
         mostrarResultadoFinal(window.respuestasCorrectas);
         alert("Repasar sumas de primaria mucha calcu IA 😢");
@@ -168,9 +174,34 @@ $("#reiniciar").on("click",function(){
             window.respuestasCorrectas; 
             generarNumeros(); //genera nuevamente los numeros aleatorios para nuevo intento
             $("#respuestausuario").val(""); //limpia la casilla (input) donde se responde...       
-          
-            // $('.iniciar').fadeIn(200); // Muestra el botón iniciar como al principio
-              });
+            tiempo=timechoose;
+            $("#tiempo").html(tiempo);
+            
+            // ================= Funcion que controla el tiempo en el juego. ===============
+    intervalo=setInterval(function(){
+        tiempo--;
+        $("#tiempo").html(tiempo);
+        if(tiempo<30){$("#tiempo").css("background","lightblue"); }
+        if(tiempo<10){
+            $("#tiempo").css("color","yellow");
+            $("#tiempo").css("background","lightblue"); 
+        }
+        if(tiempo<5){
+            $("#tiempo").css("color","red");
+            $("body").css("background","salmon");
+        }
+        if(tiempo==0){            
+            clearInterval(intervalo);
+            elementoSonidoGeneral.pause();
+            if(contesto==0){
+            elementoSonidoTimeOut.play();
+            elementoSonidoTimeOut.volume=0.3;
+               $(".gameover,.mensajeover").fadeIn("fast");
+                mostrarResultadoFinal(window.respuestasCorrectas);
+            };
+        }
+    },1000);
+        });
 
         // Botón salir: cierra resultado y muestra mensaje del tigre
         $('#btn-salir').on('click', function() {
