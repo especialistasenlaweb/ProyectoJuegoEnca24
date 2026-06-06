@@ -57,7 +57,7 @@ body{
 .mensajeover{
     display:none;
     position:fixed;
-    z-index:4;
+    z-index:2;
 }
 .presentacion{
     background:linear-gradient(darkblue,lightblue);
