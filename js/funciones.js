@@ -1,4 +1,5 @@
-gitvar tiempo=0;
+
+var tiempo=0;
 var intervalo;
 var contesto=0;
 var elementoSonidoGeneral=$("#audiogeneral")[0];
