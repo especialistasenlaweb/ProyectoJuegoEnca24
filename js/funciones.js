@@ -1,4 +1,3 @@
-
 var tiempo=0;
 var intervalo;
 var contesto=0;
