@@ -1,71 +1,202 @@
-
-var tiempo=20;
+gitvar tiempo=0;
 var intervalo;
 var contesto=0;
-// configuración de variables
-var a=parseInt(Math.random()*10)+1;
-var b=parseInt(Math.random()*10)+1;
-var respuestacorrecta=a+b;
-$("#numero1").val(a);
-$("#numero2").val(b);
+var elementoSonidoGeneral=$("#audiogeneral")[0];
+var elementoSonidoVictoria=$("#audiovictoria")[0];
+var elementoSonidoPerdida=$("#audioperdida")[0];
+var elementoSonidoTimeOut=$("#audiotimeout")[0];
+var elementoSonidoBoton=$("#sonidoboton")[0];
+var respuestacorrecta=0;
+var confirinijuego= 0;
+var contRespuestasCorrectas = 0; //contador de respuestas correctas
+var contintentos=0; //cuenta las veces que has juegado dentro de la pagina.
+var timechoose=0;
+
+  function generarNumeros() {  // funcion que crea variables a operar     
+        var a=parseInt(Math.random()*10)+1;
+        var b=parseInt(Math.random()*10)+1;
+          $("#numero1").val(a);
+          $("#numero2").val(b);
+        respuestacorrecta=a+b;
+    };
+
+    function traerNombre(){  //funcion que trae el nombre del usuario o anonimo! por defecto.
+        var nombreuser=$("#nombre").val(); 
+        if(nombreuser==""){
+             $("#nompresent").text("Bienvenido Jugador anonimo!");}
+        else{$("#nompresent").text("Bienvenido "+nombreuser);}
+    };
 
 
+generarNumeros(); //ejecuta al inicio la funcion que crea las variables operadoras!
+
+//botones seleccion de dificultad:
+$("#facil").on("click",function(){
+    tiempo=20;
+    timechoose=20;
+    elementoSonidoBoton.play();
+    $("#empezar").css("display","inline");
+    $("#facil").css("box-shadow","0 0 36px rgba(32, 250, 4, 0.55)");
+    $("#medio,#dificil").css("box-shadow","none");
+});
+$("#medio").on("click",function(){
+    tiempo=14;
+    timechoose=14;
+    elementoSonidoBoton.play();
+    $("#empezar").css("display","inline");
+    $("#medio").css("box-shadow","0 0 36px rgba(255, 255, 4, 0.54)");
+    $("#facil,#dificil").css("box-shadow","none");
+});
+$("#dificil").on("click",function(){
+    tiempo=8;
+    timechoose=8;
+    elementoSonidoBoton.play();
+    $("#empezar").css("display","inline");
+    $("#dificil").css("box-shadow","0 0 36px rgba(255, 4, 4, 0.59)");
+    $("#medio,#facil").css("box-shadow","none");
+});
+
+// ejecucion boton ¡"EMPEZAR JUEGO"! a jugar luego de la presentacion:
+$("#empezar").on("click",function(){
+    confirinijuego= 1;  //variable de confirmacion para la tecla "enter".
+    elementoSonidoBoton.play();
+    $(".presentacion").slideUp("fast");
+    $("#juego").slideDown("fast");
+    $("#tiempo").html(tiempo);
+    callinterval();
+});
+
+//    -----------------------ejecucion boton de responder-----------------------
+$("#responder").on("click",evaluar);
+
+function evaluar(){
+    var resuser=$("#respuestausuario").val();
+    if (resuser==respuestacorrecta){
+        elementoSonidoGeneral.pause();
+        clearInterval(intervalo);
+        $("#tiempo").html(0);
+        contRespuestasCorrectas++;  // incremento contador de respuesta correcta
+        contintentos++; //aumenta el contador de intentos hechos!.
+        contesto=1;
+        elementoSonidoVictoria.play();
+        elementoSonidoVictoria.volume=0.2;
+        alert("Saber Sumar 😃");
+    mostrarResultadoFinal(window.respuestasCorrectas);
+}
+    else { elementoSonidoPerdida.play();
+        elementoSonidoPerdida.volume=0.3;
+        clearInterval(intervalo);
+        $("#tiempo").html(0);
+         contintentos++; //aumenta el contador de intentos hechos!.
+        mostrarResultadoFinal(window.respuestasCorrectas);
+        alert("Repasar sumas de primaria mucha calcu IA 😢");
+    }
+}
+
+
+
+$(document).on("keypress",function(event){
+    if(event.which==13 && confirinijuego==1){
+        evaluar();
+    }
+});
+
+// boton reiniciar
 $("#reiniciar").on("click",function(){
     location="index.html";
 });
 
-// para empezar a jugar 
-$("#empezar").on("click",function(){
-    $(".presentacion").slideUp("fast");
-    $("#juego").slideDown("fast");
-    $("#tiempo").html(tiempo);
+  // ================= Funcion que controla el tiempo en el juego. ===============
+    function callinterval(){
     intervalo=setInterval(function(){
         tiempo--;
         $("#tiempo").html(tiempo);
+        if(tiempo<30){$("body").css("background","lightblue"); }
         if(tiempo<10){
-            $("#tiempo").css("color","yellow"); 
+            $("#tiempo").css("color","yellow");
+            $("#body").css("background","lightblue"); 
         }
         if(tiempo<5){
             $("#tiempo").css("color","red");
             $("body").css("background","salmon");
         }
-         if(tiempo==0){
-            clearInterval(intervalo);
+        if(tiempo<=0){            
+            elementoSonidoGeneral.pause();
             if(contesto==0){
-                $(".gameover,.mensajeover").fadeIn("fast");
-            } 
+            elementoSonidoTimeOut.play();
+            elementoSonidoTimeOut.volume=0.3;
+            //    $(".gameover,.mensajeover").fadeIn("fast");
+            clearInterval(intervalo);
+            mostrarResultadoFinal(window.respuestasCorrectas);
+            };
         }
-    },1000);
-});
 
+    },1000);}
+      
+        //  =============== MODAL BIENVENIDA!=====================
+          
+        $('#modal-bienvenida').fadeIn(300); //inicia el modal bienvenida!
+         // boton "VAMOS A JUGAR" Cierra modal de bienvenida y arranca el juego
+            $('#modal-cerrar').on('click', function() {
+           $('#modal-bienvenida').fadeOut(200);  
+        elementoSonidoBoton.play(); // sonido de click al oprimir un boton.
+        elementoSonidoGeneral.volume=0.25; //volumen de sonido de fondo general.
+        elementoSonidoGeneral.play(); //inicio raproduccion de sonido general.
+        $(".presentacion").fadeIn("fast"); //trae a pantalla la seccion presentacion
+        $("#empezar").css("display","none");//desactiva el boton "empezar juego" (para obligar a colocar dificultad).
+             traerNombre();   
+        });
+ 
+            // Función que muestra el resultado final con nivel
+        window.mostrarResultadoFinal = function() {
+            let emoji, titulo, nivel;
 
-// referencia al btn iniciar  esperando evento click  ejecuta 
-$(".iniciar").on("click",function(){
-    // animacion al boton de desvanecer en fast segundios
-    // cuando termina la animacion  ejecuta funcion anonima
-    $(this).fadeOut("fast",function(){
-        //   muestra la presentacion  
-        $(".presentacion").fadeIn("fast");
-    });
-});
+            if (contRespuestasCorrectas >= 5) {
+                emoji  = '🍄';
+                titulo = '¡Eres nivel Mario!';
+                nivel  = 'Maestro de las sumas. ¡Impresionante!';
+            } else if (contRespuestasCorrectas >= 3) {
+                emoji  = '🧠';
+                titulo = '¡Eres nivel Einstein!';
+                nivel  = 'Muy bien, casi genio.';
+            } else {
+                emoji  = '🤖';
+                titulo = '¡Eres nivel IA!';
+                nivel  = 'Tranquilo, la máquina también falla a veces.';
+             }
 
+            $('#resultado-emoji').text(emoji);
+            $('#resultado-titulo').text(titulo);
+             $('#resultado-nivel').text(nivel);
+             $('#resultado-puntaje').text('Respuestas correctas: ' + contRespuestasCorrectas + ' / ' + contintentos);
+             $('#modal-resultado').fadeIn(300);
+        };
 
+       // Botón "---VOLVER A JUGAR---"! del modal de resultado:
+       $('#btn-volver-jugar').on('click', function() {
+            clearInterval(intervalo);
+            $('#modal-resultado').fadeOut(200);
+            window.respuestasCorrectas; 
+            generarNumeros(); //genera nuevamente los numeros aleatorios para nuevo intento
+            $("#respuestausuario").val(""); //limpia la casilla (input) donde se responde...       
+            tiempo=timechoose;
+            $("#tiempo").html(tiempo);
+            callinterval();
+            contesto=0;
+         });
+            
+          
 
+        // Botón salir: cierra resultado y muestra mensaje del tigre
+        $('#btn-salir').on('click', function() {
+            $('#modal-resultado').fadeOut(200);
+            setTimeout(function() {
+                $('#modal-salida').fadeIn(300);
+           }, 250);
+        });
 
+        // Cierra el mensaje del tigre
+        $('#btn-cerrar-salida').on('click', function() {       
+             $('#modal-salida').fadeOut(200);
+        });
 
-$("#responder").on("click",evaluar);
-
-function evaluar(){
-    var resuser=$("#respuestausuario").val();
-    if(resuser==respuestacorrecta){
-        contesto=1;
-        alert("Saber Sumar 😃");
-    }else{
-        alert("Repasar sumas de primara mucha calcu IA 😢");
-    }
-}
-$(document).on("keypress",function(event){
-    if(event.which==32){
-        evaluar();
-    }
-});
