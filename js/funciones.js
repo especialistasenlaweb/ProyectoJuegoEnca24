@@ -63,7 +63,30 @@ $("#empezar").on("click",function(){
     $(".presentacion").slideUp("fast");
     $("#juego").slideDown("fast");
     $("#tiempo").html(tiempo);
-    callinterval();
+
+
+       // ================= Funcion que controla el tiempo en el juego. ===============
+    intervalo=setInterval(function(){
+        tiempo--;
+        $("#tiempo").html(tiempo);
+        if(tiempo<10){
+            $("#tiempo").css("color","yellow"); 
+        }
+        if(tiempo<5){
+            $("#tiempo").css("color","red");
+            $("body").css("background","salmon");
+        }
+        if(tiempo==0){            
+            clearInterval(intervalo);
+            elementoSonidoGeneral.pause();
+            if(contesto==0){
+            elementoSonidoTimeOut.play();
+            elementoSonidoTimeOut.volume=0.3;
+               $(".gameover,.mensajeover").fadeIn("fast");
+                mostrarResultadoFinal(window.respuestasCorrectas);
+            };
+        }
+    },1000); 
 });
 
 //    -----------------------ejecucion boton de responder-----------------------
@@ -92,9 +115,6 @@ function evaluar(){
         alert("Repasar sumas de primaria mucha calcu IA 😢");
     }
 }
-
-
-
 $(document).on("keypress",function(event){
     if(event.which==13 && confirinijuego==1){
         evaluar();
@@ -106,32 +126,8 @@ $("#reiniciar").on("click",function(){
     location="index.html";
 });
 
-  // ================= Funcion que controla el tiempo en el juego. ===============
-    function callinterval(){
-    intervalo=setInterval(function(){
-        tiempo--;
-        $("#tiempo").html(tiempo);
-        if(tiempo<30){$("body").css("background","lightblue"); }
-        if(tiempo<10){
-            $("#tiempo").css("color","yellow");
-            $("#body").css("background","lightblue"); 
-        }
-        if(tiempo<5){
-            $("#tiempo").css("color","red");
-            $("body").css("background","salmon");
-        }
-        if(tiempo<=0){            
-            elementoSonidoGeneral.pause();
-            if(contesto==0){
-            elementoSonidoTimeOut.play();
-            elementoSonidoTimeOut.volume=0.3;
-            //    $(".gameover,.mensajeover").fadeIn("fast");
-            clearInterval(intervalo);
-            mostrarResultadoFinal(window.respuestasCorrectas);
-            };
-        }
 
-    },1000);}
+//==========================FUNCION DE VENTANAS MODALES!...========================================
       
         //  =============== MODAL BIENVENIDA!=====================
           
@@ -174,18 +170,38 @@ $("#reiniciar").on("click",function(){
 
        // Botón "---VOLVER A JUGAR---"! del modal de resultado:
        $('#btn-volver-jugar').on('click', function() {
-            clearInterval(intervalo);
             $('#modal-resultado').fadeOut(200);
             window.respuestasCorrectas; 
             generarNumeros(); //genera nuevamente los numeros aleatorios para nuevo intento
             $("#respuestausuario").val(""); //limpia la casilla (input) donde se responde...       
             tiempo=timechoose;
             $("#tiempo").html(tiempo);
-            callinterval();
-            contesto=0;
-         });
             
-          
+            // ================= Funcion que controla el tiempo en el juego. ===============
+    intervalo=setInterval(function(){
+        tiempo--;
+        $("#tiempo").html(tiempo);
+        if(tiempo<30){$("#tiempo").css("background","lightblue"); }
+        if(tiempo<10){
+            $("#tiempo").css("color","yellow");
+            $("#tiempo").css("background","lightblue"); 
+        }
+        if(tiempo<5){
+            $("#tiempo").css("color","red");
+            $("body").css("background","salmon");
+        }
+        if(tiempo==0){            
+            clearInterval(intervalo);
+            elementoSonidoGeneral.pause();
+            if(contesto==0){
+            elementoSonidoTimeOut.play();
+            elementoSonidoTimeOut.volume=0.3;
+               $(".gameover,.mensajeover").fadeIn("fast");
+                mostrarResultadoFinal(window.respuestasCorrectas);
+            };
+        }
+    },1000);
+        });
 
         // Botón salir: cierra resultado y muestra mensaje del tigre
         $('#btn-salir').on('click', function() {
